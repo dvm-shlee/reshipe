@@ -1,0 +1,60 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "xnippet"
+dynamic = ['version']
+description = "A Python module for dynamic integration and management of extensible code snippets."
+readme = "README.md"
+license = { text = "MIT" }
+authors = [
+    { name = "SungHo Lee", email = "shlee@unc.edu" }
+]
+maintainers = [
+    { name = "SungHo Lee", email = "shlee@unc.edu" }
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10"
+]
+keywords = ["code snippets", "extensible", "plugin", "dynamic loading"]
+requires-python = ">=3.7"
+dependencies = [
+    "pyyaml>=6.0.1",
+    "packaging>=23.0",
+    "tqdm>=4.66.1",
+    "requests>=2.31.0"
+]
+urls = {Homepage = "https://xoani.github.io"}
+
+[project.optional-dependencies]
+dev = [
+    "numpy",
+    "flake8",
+    "pytest",
+    "nbmake",
+    "types-PyYAML"
+]
+
+# Additional configuration specific to hatch can go under 'tool.hatch.*'
+[tool.hatch.version]
+path = "src/xnippet/__init__.py"
+style = "pep440"
+
+[tool.hatch.build.targets.sdist]
+include = ["src"]
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/xnippet"]
+
+[tool.pytest.ini_options]
+log_cli = true
+log_cli_level = "DEBUG"
