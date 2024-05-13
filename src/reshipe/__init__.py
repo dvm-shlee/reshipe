@@ -1,0 +1,1 @@
+from .parser import Recipe as RecipeParser

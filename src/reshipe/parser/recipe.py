@@ -3,15 +3,11 @@ import re
 import warnings
 from collections import OrderedDict
 from typing import TYPE_CHECKING
+from reshipe.resource import Resource
 if TYPE_CHECKING:
     from typing import Optional
     from typing import Dict, List, Any
-    from xnippet.types import ResourceType
-
-class Resource:
-    def to_dict(self):
-        return self.__dict__
-
+    from reshipe.resource.types import ResourceType
 
 class Recipe:
     targets: List[Resource]
