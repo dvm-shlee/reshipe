@@ -29,16 +29,17 @@ This recipe is designed to extract and process diverse customer information, fro
 
 **YAML Recipe:**
 ```yaml
-package: xnippet>=0.1.0
-plugin: plugin_example
-recipe:
-  name: customer_info_aggregator
-  version: 1.0
+name: customer_info_aggregator
+dscription: "example recipe"
+version: 1.0
 
 classifier:
   customer_info:
     customer_name: profile.name
-    email_address: profile.email
+    email_address: 
+      first_avail:
+        - profile.e-mail
+          profile.email
     second_order:
       key: profile.orders
       idx: 1
@@ -69,7 +70,8 @@ classifier:
 ```
 
 ### **Explanation**
-- **`customer_name`** and **`email_address`**: Extracted directly from the customer's profile.
+- **`customer_name`**: Extracted directly from the customer's profile.
+- **`email_address`**: Extracted the data first available from given list.
 - **`second_order`**: Retrieves the second item from the orders list in the profile.
 - **`address`** and **`phone_number`**: Mapped directly from the customer's details.
 - **`preferred_contact_method`**: Demonstrates conditional selection, favoring 'email' as the primary contact method based on the specified conditions.

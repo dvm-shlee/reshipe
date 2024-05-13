@@ -1,3 +1,3 @@
-from .classifier import Classifier as RecipeParser
+from .recipe import Recipe
 
-__all__ = ["RecipeParser"]
+__all__ = ["Recipe"]

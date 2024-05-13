@@ -7,7 +7,7 @@ from reshipe.resource import Resource
 if TYPE_CHECKING:
     from typing import Optional
     from typing import Dict, List, Any
-    from reshipe.resource.types import ResourceType
+    from reshipe.types import ResourceType
 
 class Recipe:
     targets: List[Resource]
@@ -18,12 +18,10 @@ class Recipe:
     
     def __init__(self, 
                  target: ResourceType, 
-                 recipe: dict, 
-                 legacy: bool = False, 
+                 recipe: dict,
                  startup_scripts: Optional[List[str]] = None):
         self.targets = target if isinstance(target, list) else [target]
         self.recipe = recipe
-        self.backward_comp = legacy
         self.startup_scripts = startup_scripts or []
         self._parse_recipe()
         
@@ -51,17 +49,7 @@ class Recipe:
                 return t
         return None
     
-    def _legacy_parser(self, param_key: str):
-        for pars in ['acqp', 'method', 'visu_pars']:
-            if target := self._get_target_hasattr(pars):
-                value = getattr(target, pars).get(param_key)
-                if value is not None:
-                    return value
-        return param_key
-    
     def _process_str(self, str_obj: str):
-        if self.backward_comp:
-            return self._legacy_parser(str_obj)
         ptrn = r'(?P<attr>^[a-zA-Z][a-zA-Z0-9_]*)\.(?P<key>[a-zA-Z][a-zA-Z0-9_]*)'
         if matched := re.match(ptrn, str_obj):
             if target := self._get_target_hasattr(matched['attr']):
@@ -73,18 +61,22 @@ class Recipe:
             return str_obj
     
     def _process_list(self, list_obj: List):
+        processed_list = []
         for c in list_obj:
             processed = self._eval_value(c)
             if processed is not None:
-                return processed
-        return None
+                processed_list.append(processed)
+            else:
+                processed_list.append(c)
+        return processed_list
     
     def _process_dict(self, dict_obj: Dict):
-        script_cmd = 'Equation' if self.backward_comp else 'script'
-        if script_cmd in dict_obj.keys():
-            return self._process_dict_case_script(dict_obj, script_cmd)
+        if 'script' in dict_obj.keys():
+            return self._process_dict_case_script(dict_obj, 'script')
         elif 'key' in dict_obj.keys():
             return self._process_dict_case_pick_from_list(dict_obj)
+        elif 'first_avail' in dict_obj.keys() and len(dict_obj.keys()) == 1 and isinstance(dict_obj.values()[0], list):
+            return self._
         else:
             processed = {}
             for key, value in dict_obj.items():
@@ -92,7 +84,14 @@ class Recipe:
                     processed[key] = value
             return processed if len(processed) else None
         
-    def _process_dict_case_script(self, dict_obj: Dict, script_cmd: List[str]):
+    def _process_dict_case_first_avail(self, dict_obj: Dict):
+        for c in dict_obj['first_avail']:
+            processed = self._eval_value(c)
+            if processed is not None:
+                return processed
+        return None
+        
+    def _process_dict_case_script(self, dict_obj: Dict, script_cmd: str):
         script = dict_obj[script_cmd]
         if self.startup_scripts:
             for s in self.startup_scripts:

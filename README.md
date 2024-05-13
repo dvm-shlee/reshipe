@@ -2,11 +2,11 @@
 
 ### **Introducing re(sh)ipe: Streamlined Data Transformation and Validation**
 
-re(sh)ipe is a compact yet powerful Python module, crafted to seamlessly integrate data reshaping with recipe-driven processing. Originally developed to facilitate the parsing of metadata from MRI raw data for BIDS compliance, this module utilizes an intuitive YAML-based configuration. It is ideal for researchers and developers engaged in managing intricate data structures, particularly within the neuroimaging field.
+re(sh)ipe is a sophisticated Python module designed to integrate data reshaping with recipe-driven processing. Developed primarily for parsing metadata from MRI raw data to ensure BIDS compliance, re(sh)ipe leverages a YAML-based configuration that simplifies handling complex data structures, making it highly suitable for researchers and developers in neuroimaging.
 
 **Core Features:**
 
-- **Detailed Data Specifications:** Employ YAML files to precisely define data types and constraints, enhancing data integrity with regex-aware type restrictions, crucial for maintaining BIDS standards.
-- **Flexible Parsing Mechanisms:** Our recipe-based approach supports dynamic parsing of metadata from Python objects, with capabilities for conditional parsing paths and the inclusion of pre-processing scripts to optimize data workflow.
+- **Detailed Data Specifications:** (WIP) Utilize YAML files to define data types and constraints rigorously. This feature includes regex-aware type restrictions that are essential for adhering to BIDS standards.
+- **Flexible Parsing Mechanisms:** The module's recipe-based approach allows for the dynamic parsing of metadata from Python objects. It includes options for conditional parsing paths and the integration of pre-processing scripts to enhance data workflow efficiency.
 
-Explore re(sh)ipe's capabilities where sophisticated data processing meets precision and adaptability in neuroimaging data management.
+Explore the capabilities of re(sh)ipe, where sophisticated data processing is seamlessly combined with precision and adaptability for neuroimaging data management.

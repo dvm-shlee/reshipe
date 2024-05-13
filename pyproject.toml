@@ -3,9 +3,9 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "xnippet"
+name = "reshipe"
 dynamic = ['version']
-description = "A Python module for dynamic integration and management of extensible code snippets."
+description = "re(sh)ipe is a versatile Python module designed for efficient data transformation and validation."
 readme = "README.md"
 license = { text = "MIT" }
 authors = [
@@ -29,31 +29,25 @@ keywords = ["code snippets", "extensible", "plugin", "dynamic loading"]
 requires-python = ">=3.7"
 dependencies = [
     "pyyaml>=6.0.1",
-    "packaging>=23.0",
-    "tqdm>=4.66.1",
-    "requests>=2.31.0"
 ]
 urls = {Homepage = "https://xoani.github.io"}
 
 [project.optional-dependencies]
 dev = [
-    "numpy",
-    "flake8",
     "pytest",
-    "nbmake",
     "types-PyYAML"
 ]
 
 # Additional configuration specific to hatch can go under 'tool.hatch.*'
 [tool.hatch.version]
-path = "src/xnippet/__init__.py"
+path = "src/reshipe/__init__.py"
 style = "pep440"
 
 [tool.hatch.build.targets.sdist]
 include = ["src"]
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/xnippet"]
+packages = ["src/reshipe"]
 
 [tool.pytest.ini_options]
 log_cli = true
