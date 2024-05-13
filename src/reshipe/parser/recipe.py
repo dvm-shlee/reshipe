@@ -70,22 +70,25 @@ class Recipe:
                 processed_list.append(c)
         return processed_list
     
-    def _process_dict(self, dict_obj: Dict):
-        if 'script' in dict_obj.keys():
+    def _process_dict(self, dict_obj: Dict) -> Optional[Dict]:
+        # Handle the case where 'script' key exists
+        if 'script' in dict_obj:
             return self._process_dict_case_script(dict_obj, 'script')
-        elif 'key' in dict_obj.keys():
+        # Handle the case where 'key' key exists
+        elif 'key' in dict_obj:
             return self._process_dict_case_pick_from_list(dict_obj)
-        elif 'first_avail' in dict_obj.keys() and len(dict_obj.keys()) == 1 and isinstance(dict_obj.values()[0], list):
-            return self._
+        # Handle the case where 'first_avail' key exists and it has one key with a list value
+        elif 'first_avail' in dict_obj and len(dict_obj) == 1 and isinstance(dict_obj['first_avail'], list):
+            return self._process_dict_case_first_avail(dict_obj['first_avail'])  # Assuming you have a method to handle this
         else:
             processed = {}
             for key, value in dict_obj.items():
-                if value := self._eval_value(value):
-                    processed[key] = value
-            return processed if len(processed) else None
-        
-    def _process_dict_case_first_avail(self, dict_obj: Dict):
-        for c in dict_obj['first_avail']:
+                if processed_value := self._eval_value(value):  # Recursive call if value is a dict
+                    processed[key] = processed_value
+            return processed if processed else None
+
+    def _process_dict_case_first_avail(self, list_obj: List):
+        for c in list_obj:
             processed = self._eval_value(c)
             if processed is not None:
                 return processed
