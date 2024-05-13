@@ -10,12 +10,6 @@ if TYPE_CHECKING:
     from reshipe.types import ResourceType
 
 class Recipe:
-    targets: List[Resource]
-    recipe: dict
-    results: OrderedDict = OrderedDict()
-    backward_comp: bool
-    startup_scripts: List['str']
-    
     def __init__(self, 
                  target: ResourceType, 
                  recipe: dict,
@@ -23,7 +17,7 @@ class Recipe:
         self.targets = target if isinstance(target, list) else [target]
         self.recipe = recipe
         self.startup_scripts = startup_scripts or []
-        self._parse_recipe()
+        self.results = OrderedDict()
         
     def _parse_recipe(self):
         for key, value in self.recipe.items():
@@ -126,4 +120,5 @@ class Recipe:
             return value[idx] if idx < len(value) else None
     
     def get(self):
+        self._parse_recipe()
         return self.results
