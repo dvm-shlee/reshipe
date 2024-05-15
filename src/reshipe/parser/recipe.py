@@ -1,5 +1,6 @@
 from __future__ import annotations
 import re
+import logging
 import warnings
 from collections import OrderedDict
 from typing import TYPE_CHECKING
@@ -11,7 +12,7 @@ if TYPE_CHECKING:
 
 class Recipe:
     def __init__(self, 
-                 target: ResourceType, 
+                 target: ResourceType,
                  recipe: dict,
                  startup_scripts: Optional[List[str]] = None):
         self.targets = target if isinstance(target, list) else [target]
@@ -25,9 +26,10 @@ class Recipe:
                 scripts = [s for s in value if s is not None]
                 self.startup_scripts.extend(scripts)
             else:
-                if value := self._eval_value(value):
+                value = self._eval_value(value)
+                if value is not None:
                     self.results[key] = value
-    
+                
     def _eval_value(self, value: Any):
         if isinstance(value, str):
             value = self._process_str(value)
@@ -47,8 +49,9 @@ class Recipe:
         ptrn = r'(?P<attr>^[a-zA-Z][a-zA-Z0-9_]*)\.(?P<key>[a-zA-Z][a-zA-Z0-9_]*)'
         if matched := re.match(ptrn, str_obj):
             if target := self._get_target_hasattr(matched['attr']):
-                attr = getattr(target, matched['attr'])
-                return attr.get(matched['key'], None)
+                if attr := getattr(target, matched['attr']):
+                    return attr.get(matched['key'], None)
+                return None
             else:
                 return None
         else:
@@ -101,7 +104,7 @@ class Recipe:
                 exec(f'global {key}')
                 try:
                     exec(f'{key} = {value}')
-                except NameError:
+                except (NameError, SyntaxError):
                     exec(f"{key} = '{value}'")
         exec(f"output = {script}", globals(), locals())
         return locals()['output']
