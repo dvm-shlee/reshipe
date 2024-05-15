@@ -25,12 +25,12 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10"
 ]
-keywords = ["code snippets", "extensible", "plugin", "dynamic loading"]
+keywords = ["parser", "recipe", "yalm", "metadata", "reshape"]
 requires-python = ">=3.7"
 dependencies = [
     "pyyaml>=6.0.1",
 ]
-urls = {Homepage = "https://xoani.github.io"}
+urls = {Homepage = "https://dvm-shlee.github.io"}
 
 [project.optional-dependencies]
 dev = [
